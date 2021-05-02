@@ -1,0 +1,28 @@
+mir@mir-inspiron245459:~$ sudo kubectl create namespace sample
+namespace/sample created
+
+
+mir@mir-inspiron245459:~$ sudo kubectl get namespace
+NAME              STATUS   AGE
+default           Active   3m19s
+ingress-nginx     Active   3m8s
+kube-node-lease   Active   3m23s
+kube-public       Active   3m23s
+kube-system       Active   3m23s
+sample            Active   39s
+
+
+mir@mir-inspiron245459:~$ sudo kubectl config set-context sample-context --namespace=sample --cluster=minikube --user minikube
+Context "sample-context" created.
+
+
+
+mir@mir-inspiron245459:~$ sudo kubectl config use-context sample-context
+Switched to context "sample-context".
+
+
+
+mir@mir-inspiron245459:~$ sudo kubectl config get-contexts
+CURRENT   NAME             CLUSTER    AUTHINFO   NAMESPACE
+          minikube         minikube   minikube   default
+*         sample-context   minikube   minikube   sample

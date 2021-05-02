@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: joomla-deployment
+  namespace: sample
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: joomla-pod
+  template:
+    metadata: 
+      labels:  
+        name: joomla-pod
+    spec:
+      containers:
+      - name: joomla-container
+        image: joomla:3.4.8-apache
+        env:
+        - name: JOOMLA_DB_HOST
+          value: joomla-db
+        - name: JOOMLA_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mydbsecret
+              key: rootpass
+        ports: 
+        - containerPort: 80
+          name: joomla
+        volumeMounts:
+        - name: joomla-storage
+          mountPath: /var/www/html
+      volumes:
+      - name: joomla-storage
+        persistentVolumeClaim:
+          claimName: pvc-joomla
